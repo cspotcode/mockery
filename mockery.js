@@ -66,6 +66,22 @@ function getEffectiveOptions(opts) {
 }
 
 /*
+ * The perils of using internal functions. The Node-internal _resolveFilename
+ * function was changed in commit 840229a8251955d2b791928875f36d35127dcad0
+ * (just prior to v0.6.10) such that it returns a string, whereas previously
+ * it returned an array. Instead of playing version number tricks, just check
+ * for an array and pull the filename from that if necessary.
+ */
+function resolveFilename(request, parent) {
+    parent = parent || module.parent;
+    var filename = m._resolveFilename(request, parent);
+    if (Array.isArray(filename)) {
+        filename = filename[1];
+    }
+    return filename;
+}
+
+/*
  * The (private) loader replacement that is used when hooking is enabled. It
  * does the work of returning a mock or substitute when configured, reporting
  * non-allowed modules, and invoking the original loader when appropriate.
@@ -73,18 +89,20 @@ function getEffectiveOptions(opts) {
  * since it will replace that when mockery is enabled.
  */
 function hookedLoader(request, parent, isMain) {
-    var subst, allow, file;
+    var subst, allow;
 
     if (!originalLoader) {
         throw new Error("Loader has not been hooked");
     }
+    
+    var path = resolveFilename(request, parent);
 
-    if (registeredMocks.hasOwnProperty(request)) {
-        return registeredMocks[request];
+    if (registeredMocks.hasOwnProperty(path)) {
+        return registeredMocks[path];
     }
 
-    if (registeredSubstitutes.hasOwnProperty(request)) {
-        subst = registeredSubstitutes[request];
+    if (registeredSubstitutes.hasOwnProperty(path)) {
+        subst = registeredSubstitutes[path];
         if (!subst.module && subst.name) {
             subst.module = originalLoader(subst.name, parent, isMain);
         }
@@ -94,12 +112,11 @@ function hookedLoader(request, parent, isMain) {
         return subst.module;
     }
 
-    if (registeredAllowables.hasOwnProperty(request)) {
-        allow = registeredAllowables[request];
+    if (registeredAllowables.hasOwnProperty(path)) {
+        allow = registeredAllowables[path];
         if (allow.unhook) {
-            file = m._resolveFilename(request, parent);
-            if (file.indexOf('/') !== -1 && allow.paths.indexOf(file) === -1) {
-                allow.paths.push(file);
+            if (path.indexOf('/') !== -1 && allow.paths.indexOf(path) === -1) {
+                allow.paths.push(path);
             }
         }
     } else {
@@ -187,10 +204,11 @@ function warnOnUnregistered(enable) {
  * for anything not mocked and subsequently invoked.
  */
 function registerMock(mod, mock) {
-    if (options.warnOnReplace && registeredMocks.hasOwnProperty(mod)) {
+    var path = resolveFilename(mod);
+    if (options.warnOnReplace && registeredMocks.hasOwnProperty(path)) {
         console.warn("WARNING: Replacing existing mock for module: " + mod);
     }
-    registeredMocks[mod] = mock;
+    registeredMocks[path] = mock;
 }
 
 /*
@@ -199,8 +217,9 @@ function registerMock(mod, mock) {
  * falling back to the original 'require' behaviour).
  */
 function deregisterMock(mod) {
-    if (registeredMocks.hasOwnProperty(mod)) {
-        delete registeredMocks[mod];
+    var path = resolveFilename(mod);
+    if (registeredMocks.hasOwnProperty(path)) {
+        delete registeredMocks[path];
     }
 }
 
@@ -211,10 +230,11 @@ function deregisterMock(mod) {
  * a mock implementation is itself implemented as a module.
  */
 function registerSubstitute(mod, subst) {
-    if (options.warnOnReplace && registeredSubstitutes.hasOwnProperty(mod)) {
+    var path = resolveFilename(mod);
+    if (options.warnOnReplace && registeredSubstitutes.hasOwnProperty(path)) {
         console.warn("WARNING: Replacing existing substitute for module: " + mod);
     }
-    registeredSubstitutes[mod] = {
+    registeredSubstitutes[path] = {
         name: subst
     };
 }
@@ -225,8 +245,9 @@ function registerSubstitute(mod, subst) {
  * default, means falling back to the original 'require' behaviour).
  */
 function deregisterSubstitute(mod) {
-    if (registeredSubstitutes.hasOwnProperty(mod)) {
-        delete registeredSubstitutes[mod];
+    var path = resolveFilename(mod);
+    if (registeredSubstitutes.hasOwnProperty(path)) {
+        delete registeredSubstitutes[path];
     }
 }
 
@@ -240,7 +261,8 @@ function deregisterSubstitute(mod) {
  * it is deregistered.
  */
 function registerAllowable(mod, unhook) {
-    registeredAllowables[mod] = {
+    var path = resolveFilename(mod);
+    registeredAllowables[path] = {
         unhook: !!unhook,
         paths: []
     };
@@ -263,14 +285,15 @@ function registerAllowables(mods, unhook) {
  * mock or substitute is registered for that module.
  */
 function deregisterAllowable(mod) {
-    if (registeredAllowables.hasOwnProperty(mod)) {
-        var allow = registeredAllowables[mod];
+    var path = resolveFilename(mod);
+    if (registeredAllowables.hasOwnProperty(path)) {
+        var allow = registeredAllowables[path];
         if (allow.unhook) {
             allow.paths.forEach(function (p) {
                 delete m._cache[p];
             });
         }
-        delete registeredAllowables[mod];
+        delete registeredAllowables[path];
     }
 }
 
