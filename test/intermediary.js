@@ -20,7 +20,7 @@ var tests = {
         },
         "and mockery is enabled without the clean cache option": {
             topic: function () {
-                mockery.registerMock('./fake_module', mock_fake_module);
+                mockery.registerMock('./fixtures/fake_module', mock_fake_module);
                 mockery.registerAllowable('./fixtures/intermediary');
                 mockery.enable({ useCleanCache: false });
                 var i = require('./fixtures/intermediary');
@@ -33,7 +33,7 @@ var tests = {
             },
             "then mockery is enabled with the clean cache option": {
                 topic: function () {
-                    mockery.registerMock('./fake_module', mock_fake_module);
+                    mockery.registerMock('./fixtures/fake_module', mock_fake_module);
                     mockery.registerAllowable('./fixtures/intermediary');
                     mockery.enable({ useCleanCache: true });
                     var i = require('./fixtures/intermediary');
