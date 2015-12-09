@@ -127,6 +127,12 @@ function enable(opts) {
     if (options.useCleanCache) {
         originalCache = m._cache;
         m._cache = {};
+
+        // The only exception: this file (lib/mockery) should be immune to the clean cache.
+        // Otherwise, requiring mockery while mockery is enabled will create a new
+        // registeredMocks, registeredSubstitutions, etc. that don't affect the currently
+        // registered mockery loader.
+
     }
 
     originalLoader = m._load;
