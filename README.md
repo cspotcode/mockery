@@ -35,7 +35,7 @@ right places in the code you need to test.
 
 Just use npm:
 
-    npm install mockery
+    npm install mockery-next
 
 ## Enabling mockery
 
