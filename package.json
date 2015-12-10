@@ -1,60 +1,60 @@
 {
-    "name": "mockery-next",
-    "version": "2.0.0-pre",
-    "description": "Simplifying the use of mocks with Node.js",
-    "keywords": [
-        "mock",
-        "stub",
-        "require",
-        "module",
-        "cache",
-        "unit",
-        "test",
-        "unittest",
-        "testing",
-        "tdd"
-    ],
-    "author": "Andrew Bradley <cspotcode@gmail.com>",
-    "contributors": [
-        {
-            "name": "Martin Cooper",
-            "email": "mfncooper@gmail.com"
-        },
-        {
-            "name": "Bryan Donovan",
-            "email": "bdondo@gmail.com"
-        },
-        {
-            "name": "Dav Glass",
-            "email": "davglass@gmail.com"
-        }
-    ],
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/cspotcode/mockery-next.git"
+  "name": "mockery-next",
+  "version": "2.0.1-0",
+  "description": "Simplifying the use of mocks with Node.js",
+  "keywords": [
+    "mock",
+    "stub",
+    "require",
+    "module",
+    "cache",
+    "unit",
+    "test",
+    "unittest",
+    "testing",
+    "tdd"
+  ],
+  "author": "Andrew Bradley <cspotcode@gmail.com>",
+  "contributors": [
+    {
+      "name": "Martin Cooper",
+      "email": "mfncooper@gmail.com"
     },
-    "bugs": {
-        "url": "http://github.com/cspotcode/mockery-next/issues"
+    {
+      "name": "Bryan Donovan",
+      "email": "bdondo@gmail.com"
     },
-    "main": "mockery.js",
-    "dependencies": {},
-    "jshintConfig": {
-        "node": true
-    },
-    "devDependencies": {
-        "istanbul": "~0.3.5",
-        "jshint": "~2.6.0",
-        "sinon": "1.2.x",
-        "vows": "~0.8.1"
-    },
-    "scripts": {
-        "pretest": "jshint mockery.js ./test/*.js",
-        "test": "istanbul cover --print both -- vows --spec ./test/*.js"
-    },
-    "licenses": [
-        {
-            "type": "MIT",
-            "url": "http://github.com/cspotcode/mockery-next/raw/master/LICENSE"
-        }
-    ]
+    {
+      "name": "Dav Glass",
+      "email": "davglass@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cspotcode/mockery-next.git"
+  },
+  "bugs": {
+    "url": "http://github.com/cspotcode/mockery-next/issues"
+  },
+  "main": "mockery.js",
+  "dependencies": {},
+  "jshintConfig": {
+    "node": true
+  },
+  "devDependencies": {
+    "istanbul": "~0.3.5",
+    "jshint": "~2.6.0",
+    "sinon": "1.2.x",
+    "vows": "~0.8.1"
+  },
+  "scripts": {
+    "pretest": "jshint mockery.js ./test/*.js",
+    "test": "istanbul cover --print both -- vows --spec ./test/*.js"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/cspotcode/mockery-next/raw/master/LICENSE"
+    }
+  ]
 }
