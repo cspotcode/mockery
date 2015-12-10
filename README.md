@@ -1,6 +1,9 @@
-# Mockery - Simplifying the use of mocks with Node.js
+# Mockery-next - Simplifying the use of mocks with Node.js
 
-[![Build Status](https://secure.travis-ci.org/mfncooper/mockery.png)](http://travis-ci.org/mfncooper/mockery)
+[![Build Status](https://secure.travis-ci.org/cspotcode/mockery-next.png)](http://travis-ci.org/cspotcode/mockery-next)
+
+*This is a fork of [mockery](https://github.com/mfncooper/mockery) intended to fix bugs and implement new features.
+Hopefully it will be merged into mockery.  Until then, I've pushed it to npm to use in my own projects.*
 
 If you've tried working with mocks in Node.js, you've no doubt discovered that
 it's not so easy to get your mocks hooked up in the face of Node's module
