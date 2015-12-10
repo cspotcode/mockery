@@ -16,7 +16,8 @@ var tests = {
                 './fixtures/substitute_fake_module');
         },
         teardown: function () {
-            mockery.deregisterSubstitute('not-registered-mock');
+            var notRegisteredMock = 'util';
+            mockery.deregisterSubstitute(notRegisteredMock);
             mockery.deregisterSubstitute('./fixtures/fake_module');
         },
         "and mockery is enabled": {

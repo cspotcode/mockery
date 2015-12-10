@@ -54,7 +54,8 @@ var tests = {
 
                 "and the module is deregistered": {
                     topic: function () {
-                        mockery.deregisterAllowable('not-allowed-already');
+                        var notAllowedAlready = 'util';
+                        mockery.deregisterAllowable(notAllowedAlready);
                         mockery.deregisterAllowable('./fixtures/fake_module');
                         return null;
                     },

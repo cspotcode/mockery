@@ -22,7 +22,8 @@ var tests = {
             assert.equal(fake_module.foo(), 'mocked foo');
         },
         "requiring the module returns the original module": function () {
-            mockery.deregisterMock('not-a-mock', mock_fake_module);
+            var notAMock = 'util';
+            mockery.deregisterMock(notAMock, mock_fake_module);
             mockery.deregisterMock('./fixtures/fake_module', mock_fake_module);
             mockery.registerAllowable('./fixtures/fake_module');
             var fake_module = require('./fixtures/fake_module');
