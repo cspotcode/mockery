@@ -46,6 +46,7 @@ var tests = {
                 "then mockery is disabled": {
                     topic: function() {
                         mockery.disable();
+                        mockery.deregisterAll();
                         return require('./fixtures/intermediary');
                     },
                     "requiring the intermediary causes the original to be used": function (intermediary) {
