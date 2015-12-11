@@ -38,8 +38,7 @@ var tests = {
             "throws on an invalid substitute module": function() {
                 assert.throws(function() {
                     mockery.registerSubstitute('fs');
-                    require('fs');
-                }, /Misconfigured substitute for/);
+                }, /Substitute must be a/);
             },
             "registering a replacement causes a warning to be logged": function () {
                 var mock_console;
