@@ -35,9 +35,18 @@ var tests = {
                     require('fs');
                 }, /Cannot find module/);
             },
+            "throws on a null substitution": function() {
+                assert.throws(function() {
+                    mockery.registerSubstitute('./fixtures/intermediary', null);
+                    require('./fixtures/intermediary');
+                }, /Cannot find module '\.\/fixtures\/intermediary'/);
+            },
             "throws on an invalid substitute module": function() {
                 assert.throws(function() {
                     mockery.registerSubstitute('fs');
+                }, /Substitute must be a/);
+                assert.throws(function() {
+                    mockery.registerSubstitute('fs', {});
                 }, /Substitute must be a/);
             },
             "registering a replacement causes a warning to be logged": function () {
