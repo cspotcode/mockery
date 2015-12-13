@@ -13,7 +13,11 @@ var tests = {
         topic: function () {
             mockery.enable({useCleanCache: true});
             mockery.registerMock('fs', 'not really fs');
-            mockery.registerMock('./fixtures/fake_module', {foo: function() {return 'not really fake_module'}});
+            mockery.registerMock('./fixtures/fake_module', {
+                foo: function() {
+                    return 'not really fake_module';
+                }
+            });
             return require('../mockery');
         },
         'mockery\'s internal state is still shared': function (mockery) {
